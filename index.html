@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142B4A">
+  <meta name="description" content="Plataforma educativa para aprender ecuaciones mediante ejercicios, niveles y retos matemáticos.">
+  <title>Equation Challenge | Aprende matemáticas</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Equation Challenge inicio">
+        <span class="brand-mark">∑</span>
+        <span><strong>EQUATION</strong><small>CHALLENGE</small></span>
+      </a>
+      <div class="top-actions">
+        <span class="online-pill"><i></i> Plataforma educativa</span>
+        <button id="installBtn" class="btn btn-outline btn-small" hidden>Instalar aplicación</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="welcomeView" class="welcome-view">
+        <div class="hero-copy">
+          <span class="eyebrow">MATEMÁTICAS · APRENDIZAJE ACTIVO</span>
+          <h1>Las ecuaciones<br><em>se conquistan</em><br>con práctica.</h1>
+          <p>Aprende a resolver ecuaciones paso a paso, supera desafíos y observa cómo mejora tu razonamiento matemático.</p>
+          <div class="hero-points">
+            <span>✓ Retos por niveles</span><span>✓ Retroalimentación inmediata</span><span>✓ Seguimiento del progreso</span>
+          </div>
+        </div>
+        <div class="login-card">
+          <div class="card-heading">
+            <span class="eyebrow">BIENVENIDO</span>
+            <h2>Ingresa al aula</h2>
+            <p>Selecciona tu perfil para continuar.</p>
+          </div>
+          <label for="userName">Nombre del usuario</label>
+          <input id="userName" type="text" maxlength="40" placeholder="Escribe tu nombre" autocomplete="name">
+          <div class="role-picker" role="group" aria-label="Tipo de usuario">
+            <button class="role-option selected" data-role="student" type="button">
+              <span class="role-icon">🎓</span><strong>Estudiante</strong><small>Resolver retos</small>
+            </button>
+            <button class="role-option" data-role="teacher" type="button">
+              <span class="role-icon">📘</span><strong>Profesor</strong><small>Gestionar aula</small>
+            </button>
+          </div>
+          <button id="enterBtn" class="btn btn-primary btn-full">Ingresar al entorno <span>→</span></button>
+          <p class="demo-note">Modo demostración: no requiere crear una cuenta.</p>
+        </div>
+      </section>
+
+      <section id="appView" class="app-view" hidden>
+        <aside class="sidebar">
+          <div class="user-mini">
+            <div id="avatar" class="avatar">E</div>
+            <div><strong id="sidebarName">Estudiante</strong><small id="sidebarRole">Estudiante</small></div>
+          </div>
+          <nav id="mainNav" class="main-nav" aria-label="Navegación principal">
+            <button class="nav-item active" data-page="dashboard"><span>▦</span>Resumen</button>
+            <button class="nav-item" data-page="challenges"><span>◇</span>Retos</button>
+            <button class="nav-item teacher-only" data-page="classroom" hidden><span>♧</span>Mi aula</button>
+          </nav>
+          <button id="logoutBtn" class="nav-item logout"><span>↪</span>Cambiar perfil</button>
+          <div class="sidebar-foot">EQUATION CHALLENGE <small>Aprender es avanzar.</small></div>
+        </aside>
+
+        <div class="workspace">
+          <div class="page-top">
+            <div><span class="eyebrow" id="pageEyebrow">TU ESPACIO DE APRENDIZAJE</span><h2 id="pageTitle">¡Hola!</h2></div>
+            <div class="date-chip" id="todayLabel"></div>
+          </div>
+
+          <section id="studentDashboard" class="page-content">
+            <div class="welcome-banner">
+              <div><span class="eyebrow light">TU SIGUIENTE PASO</span><h3>Piensa, plantea y resuelve.</h3><p>Cada ejercicio es una oportunidad para mejorar.</p><button class="btn btn-white" id="startChallengeBtn">Comenzar un reto <span>→</span></button></div>
+              <div class="banner-equation" aria-hidden="true">2x + 5 = 17</div>
+            </div>
+            <div class="stats-grid">
+              <article class="stat-card"><span class="stat-icon blue">✦</span><small>PUNTOS ACUMULADOS</small><strong id="totalPoints">0</strong><span class="stat-foot">Sigue practicando</span></article>
+              <article class="stat-card"><span class="stat-icon green">✓</span><small>RESPUESTAS CORRECTAS</small><strong id="correctCount">0</strong><span class="stat-foot">Problemas resueltos</span></article>
+              <article class="stat-card"><span class="stat-icon gold">◎</span><small>PRECISIÓN</small><strong id="accuracy">0%</strong><span class="stat-foot">De tus intentos</span></article>
+            </div>
+            <div class="content-grid">
+              <article class="panel">
+                <div class="panel-title"><div><span class="eyebrow">CONTINÚA APRENDIENDO</span><h3>Rutas de aprendizaje</h3></div><span class="subtle">3 niveles</span></div>
+                <div id="levelCards" class="level-list"></div>
+              </article>
+              <article class="panel tip-panel"><span class="eyebrow">CONSEJO MATEMÁTICO</span><div class="tip-symbol">✎</div><h3>Una operación a la vez.</h3><p>Para despejar la incógnita, realiza la misma operación en ambos miembros de la ecuación. Mantén siempre la igualdad.</p><div class="tip-rule"></div><small>RECUERDA · EL ORDEN IMPORTA</small></article>
+            </div>
+          </section>
+
+          <section id="challengePage" class="page-content" hidden>
+            <div class="challenge-layout">
+              <article class="panel exercise-panel">
+                <div class="exercise-top"><span class="eyebrow">DESAFÍO MATEMÁTICO</span><span id="questionCounter" class="counter">RETO 1</span></div>
+                <div class="progress-track"><span id="questionProgress"></span></div>
+                <div class="question-meta"><span id="levelTag" class="tag">NIVEL 1</span><span id="questionType" class="subtle">Ecuación básica</span></div>
+                <h3 id="questionPrompt">Resuelve la siguiente ecuación:</h3>
+                <div id="equationDisplay" class="equation-display">2x + 5 = 17</div>
+                <p class="answer-label">¿Cuál es el valor de x?</p>
+                <form id="answerForm">
+                  <div class="answer-row"><span>x =</span><input id="answerInput" type="number" step="any" placeholder="Tu respuesta" required autocomplete="off"><button class="btn btn-primary" type="submit">Comprobar</button></div>
+                </form>
+                <div id="feedback" class="feedback" aria-live="polite"></div>
+                <div class="exercise-bottom"><button id="hintBtn" class="text-button" type="button">◎ Necesito una pista</button><span id="pointsPossible">+10 puntos</span></div>
+                <div id="hintBox" class="hint-box" hidden></div>
+              </article>
+              <aside class="panel mission-panel"><span class="eyebrow">TU MISIÓN</span><div class="mission-number">01</div><h3>Domina la incógnita</h3><p>Identifica las operaciones que acompañan a la variable y deshazlas en orden inverso.</p><div class="mission-divider"></div><div class="mission-stat"><span>Respuestas correctas</span><strong id="sessionCorrect">0 / 5</strong></div><div class="mission-stat"><span>Puntos de esta sesión</span><strong id="sessionPoints">0</strong></div><button id="nextQuestionBtn" class="btn btn-primary btn-full" hidden>Siguiente ejercicio →</button><button id="finishSessionBtn" class="btn btn-outline btn-full" hidden>Finalizar sesión</button></aside>
+            </div>
+          </section>
+
+          <section id="teacherDashboard" class="page-content" hidden>
+            <div class="teacher-banner"><div><span class="eyebrow light">PANEL DOCENTE</span><h3>Enseñar también es descubrir.</h3><p>Consulta el avance registrado en este dispositivo y crea nuevos retos para tu aula.</p></div><span class="teacher-graphic">⌘</span></div>
+            <div class="stats-grid">
+              <article class="stat-card"><span class="stat-icon blue">♙</span><small>ESTUDIANTES REGISTRADOS</small><strong id="studentTotal">0</strong><span class="stat-foot">En este dispositivo</span></article>
+              <article class="stat-card"><span class="stat-icon green">✓</span><small>RESPUESTAS CORRECTAS</small><strong id="classCorrect">0</strong><span class="stat-foot">Total del aula</span></article>
+              <article class="stat-card"><span class="stat-icon gold">✦</span><small>PUNTOS DEL AULA</small><strong id="classPoints">0</strong><span class="stat-foot">Acumulado</span></article>
+            </div>
+            <div class="content-grid teacher-grid">
+              <article class="panel">
+                <div class="panel-title"><div><span class="eyebrow">SEGUIMIENTO</span><h3>Rendimiento de estudiantes</h3></div><span class="subtle">Registro local</span></div>
+                <div class="table-wrap"><table><thead><tr><th>Estudiante</th><th>Correctas</th><th>Puntos</th><th>Precisión</th></tr></thead><tbody id="studentTable"><tr><td colspan="4" class="empty-cell">Aún no hay estudiantes registrados.</td></tr></tbody></table></div>
+              </article>
+              <article class="panel create-panel">
+                <span class="eyebrow">PERSONALIZA EL APRENDIZAJE</span><h3>Crear un reto</h3><p class="subtle">Añade una ecuación con respuesta numérica para que aparezca en los retos personalizados.</p>
+                <form id="customQuestionForm">
+                  <label for="customEquation">Ecuación (ej. 3x + 2 = 14)</label><input id="customEquation" type="text" placeholder="3x + 2 = 14" maxlength="60" required>
+                  <label for="customAnswer">Respuesta de x</label><input id="customAnswer" type="number" step="any" placeholder="4" required>
+                  <label for="customHint">Pista para el estudiante</label><input id="customHint" type="text" placeholder="Resta 2 en ambos miembros" maxlength="120">
+                  <button class="btn btn-primary btn-full" type="submit">+ Guardar reto</button>
+                  <div id="customFeedback" class="form-feedback" aria-live="polite"></div>
+                </form>
+              </article>
+            </div>
+          </section>
+
+          <section id="classroomPage" class="page-content" hidden>
+            <article class="panel">
+              <span class="eyebrow">BANCO DE ACTIVIDADES</span><h3>Retos personalizados</h3>
+              <p class="subtle">Los retos creados por el profesor se guardan en este navegador y se incorporan a la práctica de los estudiantes.</p>
+              <div id="customQuestionList" class="custom-list"><p class="empty-cell">Todavía no se han creado retos personalizados.</p></div>
+            </article>
+          </section>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><span>© 2026 EQUATION CHALLENGE</span><span>Educación matemática · Aprende a tu ritmo</span></footer>
+  </div>
+  <script src="app.js" defer></script>
+</body>
+</html>
